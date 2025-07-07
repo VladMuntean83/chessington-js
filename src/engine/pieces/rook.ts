@@ -8,6 +8,28 @@ export default class Rook extends Piece {
     }
 
     public getAvailableMoves(board: Board) {
-        return new Array(0);
+        const moves: Object[] = [];
+
+        try {
+            const currentSquare = board.findPiece(this);
+
+            for (let i = 0; i < 8; i++) {
+                if (i != currentSquare.row)
+                    moves.push({
+                        'row': i,
+                        'col': currentSquare.col
+                    });
+
+                if (i != currentSquare.col)
+                    moves.push({
+                        'row': currentSquare.row,
+                        'col': i
+                    });
+            }
+        } catch (e) {
+            console.error(e);
+        }
+
+        return moves;
     }
 }
