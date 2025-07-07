@@ -16,8 +16,18 @@ export default class King extends Piece {
 
             for (let i = currSquare.row - 1; i <= currSquare.row + 1; i++)
                 for (let j = currSquare.col - 1; j <= currSquare.col + 1; j++)
-                    if(i != currSquare.row || j != currSquare.col)
-                        moves.push( new Square(i, j));
+                    if((i != currSquare.row || j != currSquare.col) && Piece.inBounds(i, j)) {
+
+                        const obstacle: (Piece | undefined) = board.getPiece(new Square(i, j));
+
+                        if (obstacle != undefined) {
+                            if (obstacle.player != board.currentPlayer && !(obstacle instanceof King))
+                                moves.push(new Square(i, j));
+
+                            continue;
+                        }
+                        moves.push(new Square(i, j));
+                    }
 
         } catch (e) {
             console.error(e);
