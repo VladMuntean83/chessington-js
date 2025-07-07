@@ -10,40 +10,33 @@ export default class Pawn extends Piece {
 
     public getAvailableMoves(board: Board) {
 
-        const moves: Object[] = [];
+        const moves: Square[] = [];
 
         try {
             const currSquare: Square = board.findPiece(this);
 
             const color_dir = this.player == Player.WHITE ? 1 : -1;
 
-            if (board.getPiece(new Square(currSquare.row + color_dir, currSquare.col)) != undefined)
-               return [];
+            if (Piece.inBounds(currSquare.row + color_dir, currSquare.col)) {
+                if (board.getPiece(new Square(currSquare.row + color_dir, currSquare.col)) != undefined)
+                    return [];
 
-            moves.push({
-                'row': currSquare.row + color_dir,
-                'col': currSquare.col
-            });
+                moves.push(new Square(currSquare.row + color_dir, currSquare.col));
+            }
 
             if (this.player == Player.WHITE && currSquare.row == 1) {
 
                 if (board.getPiece(new Square(currSquare.row + 2, currSquare.col)) != undefined)
                     return moves;
 
-                moves.push({
-                    'row': currSquare.row + 2,
-                    'col': currSquare.col
-                });
+                moves.push( new Square(currSquare.row + 2, currSquare.col));
             }
 
             else if (this.player == Player.BLACK && currSquare.row == 6) {
                 if (board.getPiece(new Square(currSquare.row - 2, currSquare.col)) != undefined)
                     return moves;
 
-                moves.push({
-                    'row': currSquare.row - 2,
-                    'col': currSquare.col
-                });
+                moves.push( new Square(currSquare.row - 2, currSquare.col));
             }
 
         } catch (e) {

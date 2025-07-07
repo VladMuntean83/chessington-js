@@ -8,7 +8,7 @@ export default class Bishop extends Piece {
         super(player);
     }
 
-    public static checkDiags(currentSquare: Square, board: Board, moves: Object[]) {
+    public static checkDiags(currentSquare: Square, board: Board, moves: Square[]) {
         // Forward diag check
         let curr_row: number = currentSquare.row - 1;
         let curr_col: number = currentSquare.col - 1;
@@ -17,10 +17,7 @@ export default class Bishop extends Piece {
         while (curr_row >= 0 && curr_col >= 0) {
             if(board.getPiece(new Square(curr_row, curr_col)) != undefined)
                 break;
-            moves.push({
-                'row': curr_row,
-                'col': curr_col
-            });
+            moves.push( new Square(curr_row, curr_col));
 
             curr_col--;
             curr_row--;
@@ -33,10 +30,7 @@ export default class Bishop extends Piece {
         while (curr_row < 8 && curr_col < 8) {
             if(board.getPiece(new Square(curr_row, curr_col)) != undefined)
                 break;
-            moves.push({
-                'row': curr_row,
-                'col': curr_col
-            });
+            moves.push( new Square(curr_row, curr_col));
 
             curr_col++;
             curr_row++;
@@ -50,10 +44,7 @@ export default class Bishop extends Piece {
         while (curr_row >= 0 && curr_col < 8) {
             if(board.getPiece(new Square(curr_row, curr_col)) != undefined)
                 break;
-            moves.push({
-                'row': curr_row,
-                'col': curr_col
-            });
+            moves.push( new Square(curr_row, curr_col));
 
             curr_col++;
             curr_row--;
@@ -66,10 +57,7 @@ export default class Bishop extends Piece {
         while (curr_row < 8 && curr_col >= 0) {
             if(board.getPiece(new Square(curr_row, curr_col)) != undefined)
                 break;
-            moves.push({
-                'row': curr_row,
-                'col': curr_col
-            });
+            moves.push( new Square(curr_row, curr_col));
 
             curr_col--;
             curr_row++;
@@ -78,7 +66,7 @@ export default class Bishop extends Piece {
 
     public getAvailableMoves(board: Board) {
 
-        const moves: Object[] = [];
+        const moves: Square[] = [];
         try {
             const currentSquare: Square = board.findPiece(this);
             Bishop.checkDiags(currentSquare, board, moves);

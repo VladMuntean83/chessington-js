@@ -3,6 +3,7 @@ import Player from '../player';
 import Board from '../board';
 import Rook from "./rook";
 import Bishop from "./bishop";
+import Square from "../square";
 
 export default class Queen extends Piece {
     public constructor(player: Player) {
@@ -10,7 +11,7 @@ export default class Queen extends Piece {
     }
 
     public getAvailableMoves(board: Board) {
-        const moves: Object[] = [];
+        const moves: Square[] = [];
 
 
         try {

@@ -8,7 +8,7 @@ export default class Rook extends Piece {
         super(player);
     }
 
-    public static checklateral(currentSquare: Square, board: Board, moves: Object[]) {
+    public static checklateral(currentSquare: Square, board: Board, moves: Square[]) {
 
         for (let i = 0; i < 8; i++) {
             if (i != currentSquare.row) {
@@ -16,10 +16,7 @@ export default class Rook extends Piece {
                 if (board.getPiece(new Square(i, currentSquare.col)) != undefined)
                     break;
 
-                moves.push({
-                    'row': i,
-                    'col': currentSquare.col
-                });
+                moves.push( new Square(i, currentSquare.col));
             }
 
             if (i != currentSquare.col) {
@@ -27,16 +24,13 @@ export default class Rook extends Piece {
                 if (board.getPiece(new Square(currentSquare.row, i)) != undefined)
                     break;
 
-                moves.push({
-                    'row': currentSquare.row,
-                    'col': i
-                });
+                moves.push( new Square(currentSquare.row, i));
             }
         }
     }
 
     public getAvailableMoves(board: Board) {
-        const moves: Object[] = [];
+        const moves: Square[] = [];
 
         try {
             const currentSquare = board.findPiece(this);
