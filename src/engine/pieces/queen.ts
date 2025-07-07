@@ -18,7 +18,7 @@ export default class Queen extends Piece {
             const currentSquare = board.findPiece(this);
 
             Bishop.checkDiags(currentSquare, board, moves);
-            Rook.checklateral(this.player, currentSquare, board, moves);
+            Rook.checklateral(currentSquare, board, moves);
         } catch (e) {
             console.error(e);
         }

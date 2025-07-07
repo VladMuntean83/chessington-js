@@ -2,6 +2,7 @@ import Piece from './piece';
 import Player from '../player';
 import Board from '../board';
 import Square from '../square';
+import King from "./king";
 
 export default class Bishop extends Piece {
     public constructor(player: Player) {
@@ -15,8 +16,14 @@ export default class Bishop extends Piece {
 
         // Down
         while (curr_row >= 0 && curr_col >= 0) {
-            if(board.getPiece(new Square(curr_row, curr_col)) != undefined)
+            const obstacle: (Piece | undefined) = board.getPiece(new Square(curr_row, curr_col));
+
+            if (obstacle != undefined) {
+                if (obstacle.player != board.currentPlayer && !(obstacle instanceof King))
+                    moves.push( new Square(curr_row, curr_col));
                 break;
+            }
+
             moves.push( new Square(curr_row, curr_col));
 
             curr_col--;
@@ -28,8 +35,14 @@ export default class Bishop extends Piece {
 
         // Up
         while (curr_row < 8 && curr_col < 8) {
-            if(board.getPiece(new Square(curr_row, curr_col)) != undefined)
+            const obstacle: (Piece | undefined) = board.getPiece(new Square(curr_row, curr_col));
+
+            if (obstacle != undefined) {
+                if (obstacle.player != board.currentPlayer && !(obstacle instanceof King))
+                    moves.push( new Square(curr_row, curr_col));
                 break;
+            }
+
             moves.push( new Square(curr_row, curr_col));
 
             curr_col++;
@@ -42,8 +55,14 @@ export default class Bishop extends Piece {
 
         // Down
         while (curr_row >= 0 && curr_col < 8) {
-            if(board.getPiece(new Square(curr_row, curr_col)) != undefined)
+            const obstacle: (Piece | undefined) = board.getPiece(new Square(curr_row, curr_col));
+
+            if (obstacle != undefined) {
+                if (obstacle.player != board.currentPlayer && !(obstacle instanceof King))
+                    moves.push( new Square(curr_row, curr_col));
                 break;
+            }
+
             moves.push( new Square(curr_row, curr_col));
 
             curr_col++;
@@ -55,8 +74,14 @@ export default class Bishop extends Piece {
 
         // Up
         while (curr_row < 8 && curr_col >= 0) {
-            if(board.getPiece(new Square(curr_row, curr_col)) != undefined)
+            const obstacle: (Piece | undefined) = board.getPiece(new Square(curr_row, curr_col));
+
+            if (obstacle != undefined) {
+                if (obstacle.player != board.currentPlayer && !(obstacle instanceof King))
+                    moves.push( new Square(curr_row, curr_col));
                 break;
+            }
+
             moves.push( new Square(curr_row, curr_col));
 
             curr_col--;
