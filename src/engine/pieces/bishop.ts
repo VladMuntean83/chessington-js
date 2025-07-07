@@ -16,6 +16,7 @@ export default class Bishop extends Piece {
 
             const dimDist: number = Math.min(currentSquare.row, currentSquare.col);
 
+            // Forward diag check
             let curr_row: number = currentSquare.row - dimDist;
             let curr_col: number = currentSquare.col - dimDist;
 
@@ -29,6 +30,7 @@ export default class Bishop extends Piece {
                 curr_row++;
             }
 
+            // Backward diag check
             curr_row = currentSquare.row - dimDist;
             curr_col = currentSquare.col + dimDist;
 
