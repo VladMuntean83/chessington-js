@@ -2,27 +2,38 @@ import Piece from './piece';
 import Player from '../player';
 import Board from '../board';
 import Square from '../square';
+import King from "./king";
 
 export default class Rook extends Piece {
     public constructor(player: Player) {
         super(player);
     }
 
-    public static checklateral(currentSquare: Square, board: Board, moves: Square[]) {
+    public static checklateral(player: Player, currentSquare: Square, board: Board, moves: Square[]) {
 
         for (let i = 0; i < 8; i++) {
             if (i != currentSquare.row) {
 
-                if (board.getPiece(new Square(i, currentSquare.col)) != undefined)
+
+                const obstacle: (Piece | undefined) = board.getPiece(new Square(i, currentSquare.col));
+
+                if (obstacle != undefined) {
+                    if (obstacle.player != player && !(obstacle instanceof King))
+                        moves.push( new Square(i, currentSquare.col));
                     break;
+                }
 
                 moves.push( new Square(i, currentSquare.col));
             }
 
             if (i != currentSquare.col) {
 
-                if (board.getPiece(new Square(currentSquare.row, i)) != undefined)
+                const obstacle: (Piece | undefined) = board.getPiece(new Square(currentSquare.row, i));
+                if (obstacle != undefined) {
+                    if (obstacle.player != player && !(obstacle instanceof King))
+                        moves.push( new Square(currentSquare.row, i));
                     break;
+                }
 
                 moves.push( new Square(currentSquare.row, i));
             }
@@ -34,7 +45,7 @@ export default class Rook extends Piece {
 
         try {
             const currentSquare = board.findPiece(this);
-            Rook.checklateral(currentSquare, board, moves);
+            Rook.checklateral(this.player, currentSquare, board, moves);
         } catch (e) {
             console.error(e);
         }
