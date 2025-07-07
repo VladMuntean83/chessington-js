@@ -1,13 +1,79 @@
 import Piece from './piece';
 import Player from '../player';
 import Board from '../board';
+import Square from '../square';
+import King from "./king";
 
 export default class Rook extends Piece {
     public constructor(player: Player) {
         super(player);
     }
 
+    public static checklateral(currentSquare: Square, board: Board, moves: Square[]) {
+
+        // Left
+        for (let i = currentSquare.row - 1; i >= 0; i--) {
+            const obstacle: (Piece | undefined) = board.getPiece(new Square(i, currentSquare.col));
+
+            if (obstacle != undefined) {
+                if (obstacle.player != board.currentPlayer && !(obstacle instanceof King))
+                    moves.push(new Square(i, currentSquare.col));
+                break;
+            }
+
+            moves.push( new Square(i, currentSquare.col));
+        }
+
+        // Right
+        for (let i = currentSquare.row + 1; i < 8; i++) {
+            const obstacle: (Piece | undefined) = board.getPiece(new Square(i, currentSquare.col));
+
+            if (obstacle != undefined) {
+                if (obstacle.player != board.currentPlayer && !(obstacle instanceof King))
+                    moves.push(new Square(i, currentSquare.col));
+                break;
+            }
+
+            moves.push( new Square(i, currentSquare.col));
+        }
+
+        // Down
+        for (let i = currentSquare.col - 1; i >= 0; i--) {
+            const obstacle: (Piece | undefined) = board.getPiece(new Square(currentSquare.row, i));
+
+            if (obstacle != undefined) {
+                if (obstacle.player != board.currentPlayer && !(obstacle instanceof King))
+                    moves.push(new Square(currentSquare.row, i));
+                break;
+            }
+
+            moves.push(new Square(currentSquare.row, i));
+        }
+
+        // Up
+        for (let i = currentSquare.col + 1; i < 8; i++) {
+            const obstacle: (Piece | undefined) = board.getPiece(new Square(currentSquare.row, i));
+
+            if (obstacle != undefined) {
+                if (obstacle.player != board.currentPlayer && !(obstacle instanceof King))
+                    moves.push(new Square(currentSquare.row, i));
+                break;
+            }
+
+            moves.push(new Square(currentSquare.row, i));
+        }
+    }
+
     public getAvailableMoves(board: Board) {
-        return new Array(0);
+        const moves: Square[] = [];
+
+        try {
+            const currentSquare = board.findPiece(this);
+            Rook.checklateral(currentSquare, board, moves);
+        } catch (e) {
+            console.error(e);
+        }
+
+        return moves;
     }
 }
