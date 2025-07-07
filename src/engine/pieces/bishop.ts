@@ -14,35 +14,72 @@ export default class Bishop extends Piece {
         try {
             const currentSquare: Square = board.findPiece(this);
 
-            const dimDist: number = Math.min(currentSquare.row, currentSquare.col);
-
             // Forward diag check
-            let curr_row: number = currentSquare.row - dimDist;
-            let curr_col: number = currentSquare.col - dimDist;
+            let curr_row: number = currentSquare.row - 1;
+            let curr_col: number = currentSquare.col - 1;
 
+            // Down
+            while (curr_row >= 0 && curr_col >= 0) {
+                if(board.getPiece(new Square(curr_row, curr_col)) != undefined)
+                    break;
+                moves.push({
+                    'row': curr_row,
+                    'col': curr_col
+                });
+
+                curr_col--;
+                curr_row--;
+            }
+
+            curr_row = currentSquare.row + 1;
+            curr_col = currentSquare.col + 1;
+
+            // Up
             while (curr_row < 8 && curr_col < 8) {
-                if (curr_row != currentSquare.row && Piece.inBounds(curr_row, curr_col))
-                    moves.push({
-                        'row': curr_row,
-                        'col': curr_col
-                    })
+                if(board.getPiece(new Square(curr_row, curr_col)) != undefined)
+                    break;
+                moves.push({
+                    'row': curr_row,
+                    'col': curr_col
+                });
+
                 curr_col++;
                 curr_row++;
             }
 
             // Backward diag check
-            curr_row = currentSquare.row - dimDist;
-            curr_col = currentSquare.col + dimDist;
+            curr_row = currentSquare.row - 1;
+            curr_col = currentSquare.col + 1;
 
-            while (curr_row < 8 && curr_col > -1) {
-                if (curr_row != currentSquare.row && Piece.inBounds(curr_row, curr_col))
-                    moves.push({
-                        'row': curr_row,
-                        'col': curr_col
-                    });
-                curr_row++;
-                curr_col--;
+            // Down
+            while (curr_row >= 0 && curr_col < 8) {
+                if(board.getPiece(new Square(curr_row, curr_col)) != undefined)
+                    break;
+                moves.push({
+                    'row': curr_row,
+                    'col': curr_col
+                });
+
+                curr_col++;
+                curr_row--;
             }
+
+            curr_row = currentSquare.row + 1;
+            curr_col = currentSquare.col - 1;
+
+            // Up
+            while (curr_row < 8 && curr_col >= 0) {
+                if(board.getPiece(new Square(curr_row, curr_col)) != undefined)
+                    break;
+                moves.push({
+                    'row': curr_row,
+                    'col': curr_col
+                });
+
+                curr_col--;
+                curr_row++;
+            }
+
         } catch (e) {
             console.error(e);
         }
